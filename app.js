@@ -4,6 +4,7 @@ const cors = require('cors')
 const dotenv = require('dotenv')
 const Knex = require('knex');
 const knexConfig = require('./knexfile');
+const movieRoute = require('./routes/movie');
 const {
   Model
 } = require('objection');
@@ -16,13 +17,18 @@ const app = express()
 
 // config parser middleware
 app.use(parser.urlencoded({
-  extended: true
+  extended: false
 }))
 app.use(parser.json())
-app.set('port', process.env.PORT || 3000)
 
 // config cors middleware
 app.use(cors())
+
+// config routes
+app.use('/movies', movieRoute)
+
+// set port
+app.set('port', process.env.PORT || 3000)
 
 
 // initialize knex query builder
