@@ -1,0 +1,17 @@
+{
+  "name": "ze-blog-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jest": "^24.8.0",
+    "objection": "^1.6.9",
+    "pg": "^7.11.0"
+  }
+}
