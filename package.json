@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "nodemon app.js",
-    "start": "babel-node src/index.js"
+    "start": "nodemon src/index.js --exec babel-node"
   },
   "author": "",
   "license": "ISC",
@@ -18,7 +18,8 @@
     "jest": "^24.8.0",
     "knex": "^0.17.6",
     "objection": "^1.6.9",
-    "pg": "^7.11.0"
+    "pg": "^7.11.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
