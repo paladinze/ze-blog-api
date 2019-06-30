@@ -1,4 +1,5 @@
 import bycrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 const mutation = {
   async createUser(parent, args, { prisma, db }, info) {
@@ -16,16 +17,16 @@ const mutation = {
     // hash password
     const password = await bycrypt.hash(args.data.password, 10);
 
-    const user = await prisma.mutation.createUser(
-      {
-        data: {
-          ...args.data,
-          password
-        }
-      },
-      info
-    );
-    return user;
+    const user = await prisma.mutation.createUser({
+      data: {
+        ...args.data,
+        password
+      }
+    });
+    return {
+      user,
+      token: jwt.sign({ userId: user.id }, "ZEROCKS")
+    };
   },
 
   async updateUser(parent, args, { prisma, db }, info) {
