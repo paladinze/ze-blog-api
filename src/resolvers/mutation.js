@@ -1,20 +1,76 @@
-import uuidv4 from "uuid/v4";
+import bycrypt from "bcryptjs";
 
 const mutation = {
-  createUser(parent, args, { db }, info) {
-    const newUser = {
-      id: uuidv4(),
-      ...args.data
-    };
-    db.users.push(newUser);
-    return newUser;
+  async createUser(parent, args, { prisma, db }, info) {
+    // validate email
+    const emailTaken = await prisma.exists.User({ email: args.data.email });
+    if (emailTaken) {
+      throw new Error("email taken");
+    }
+
+    // check password
+    if (args.data.password.length < 8) {
+      throw new Error("password must be 8 characters or longer");
+    }
+
+    // hash password
+    const password = await bycrypt.hash(args.data.password, 10);
+
+    const user = await prisma.mutation.createUser(
+      {
+        data: {
+          ...args.data,
+          password
+        }
+      },
+      info
+    );
+    return user;
   },
 
-  updateUser(parent, { id, data }, { db }, info) {
-    const user = db.users.find(user => user.id === id);
-    if (!user) {
-      throw new Error("user not found!");
-    }
+  async updateUser(parent, args, { prisma, db }, info) {
+    const user = await prisma.mutation.updateUser(
+      {
+        where: {
+          id: args.id
+        },
+        data: args.data
+      },
+      info
+    );
+    return user;
+  },
+
+  async createPost(parent, args, { prisma }, info) {
+    const post = await prisma.mutation.createPost(
+      {
+        data: {
+          title: args.data.title,
+          body: args.data.body,
+          published: args.data.published,
+          author: {
+            connect: {
+              id: args.data.author
+            }
+          }
+        }
+      },
+      info
+    );
+    return post;
+  },
+
+  async deletePost(parent, args, { prisma }, info) {
+    const post = await prisma.mutation.deletePost(
+      {
+        where: {
+          id: args.id
+        }
+      },
+      info
+    );
+
+    return post;
   }
 };
 

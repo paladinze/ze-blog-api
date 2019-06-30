@@ -25,14 +25,6 @@ const Query = {
 
   comments(parent, args, ctx, info) {
     return db.comments;
-  },
-  me() {
-    return {
-      id: "123",
-      name: "mike",
-      email: "paladin",
-      age: 13
-    };
   }
 };
 

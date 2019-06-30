@@ -1,6 +1,5 @@
 import { GraphQLServer } from "graphql-yoga";
 
-import db from "./db";
 import Post from "./resolvers/post";
 import Comment from "./resolvers/comment";
 import User from "./resolvers/user";
@@ -18,7 +17,6 @@ const server = new GraphQLServer({
     Query
   },
   context: {
-    db,
     prisma
   }
 });

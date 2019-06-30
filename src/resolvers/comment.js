@@ -1,7 +1,3 @@
-const Comment = {
-  author(parent, args, { db }, info) {
-    return db.users.find(user => (user.id = parent.author));
-  }
-};
+const Comment = {};
 
 export { Comment as default };
