@@ -7,10 +7,16 @@ type Query {
 }
 
 type Mutation {
+  login(data: LoginInput!): AuthPayload!
   createUser(data: CreateUserInput!): AuthPayload!
   updateUser(id: ID!, data: UpdateUserInput!): User!
   createPost(data: CreatePostInput!): Post!
   deletePost(id: ID!): Post!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
 }
 
 input CreateUserInput {

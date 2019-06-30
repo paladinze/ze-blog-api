@@ -2,7 +2,27 @@ import bycrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 const mutation = {
-  async createUser(parent, args, { prisma, db }, info) {
+  async login(parent, args, { prisma }, info) {
+    const user = await prisma.query.user({
+      where: {
+        email: args.data.email
+      }
+    });
+
+    if (!user) {
+      throw new Error("Unable to login");
+    }
+    const verified = await bycrypt.compare(args.data.password, user.password);
+    if (!verified) {
+      throw new Error("user credential invalid");
+    }
+    return {
+      user,
+      token: jwt.sign({ userId: user.id }, "ZEROCKS")
+    };
+  },
+
+  async createUser(parent, args, { prisma }, info) {
     // validate email
     const emailTaken = await prisma.exists.User({ email: args.data.email });
     if (emailTaken) {
@@ -29,7 +49,7 @@ const mutation = {
     };
   },
 
-  async updateUser(parent, args, { prisma, db }, info) {
+  async updateUser(parent, args, { prisma }, info) {
     const user = await prisma.mutation.updateUser(
       {
         where: {
