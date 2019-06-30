@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "nodemon app.js",
-    "start": "nodemon src/index.js --ext js,graphql --exec babel-node"
+    "start": "nodemon src/index.js --ext js,graphql --exec babel-node",
+    "get-schema": "graphql get-schema -p prisma"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +20,7 @@
     "knex": "^0.17.6",
     "objection": "^1.6.9",
     "pg": "^7.11.0",
+    "prisma-binding": "^2.3.15",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

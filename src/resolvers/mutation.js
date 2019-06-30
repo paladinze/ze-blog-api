@@ -8,6 +8,13 @@ const mutation = {
     };
     db.users.push(newUser);
     return newUser;
+  },
+
+  updateUser(parent, { id, data }, { db }, info) {
+    const user = db.users.find(user => user.id === id);
+    if (!user) {
+      throw new Error("user not found!");
+    }
   }
 };
 
