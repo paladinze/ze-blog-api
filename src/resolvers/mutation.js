@@ -50,11 +50,12 @@ const mutation = {
     };
   },
 
-  async updateUser(parent, args, { prisma }, info) {
+  async updateUser(parent, args, { req, prisma }, info) {
+    const userId = getUserId(req);
     const user = await prisma.mutation.updateUser(
       {
         where: {
-          id: args.id
+          id: userId
         },
         data: args.data
       },
@@ -83,7 +84,19 @@ const mutation = {
     return post;
   },
 
-  async deletePost(parent, args, { prisma }, info) {
+  async deletePost(parent, args, { req, prisma }, info) {
+    const userId = getUserId(req);
+    const userOwnsPost = await prisma.exists.Post({
+      id: args.id,
+      author: {
+        id: userId
+      }
+    });
+
+    if (!userOwnsPost) {
+      throw new Error("unable to delete post");
+    }
+
     const post = await prisma.mutation.deletePost(
       {
         where: {

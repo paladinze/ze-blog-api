@@ -9,7 +9,7 @@ type Query {
 type Mutation {
   login(data: LoginInput!): AuthPayload!
   createUser(data: CreateUserInput!): AuthPayload!
-  updateUser(id: ID!, data: UpdateUserInput!): User!
+  updateUser(data: UpdateUserInput!): User!
   createPost(data: CreatePostInput!): Post!
   deletePost(id: ID!): Post!
 }
