@@ -1,26 +1,17 @@
 import { GraphQLServer } from "graphql-yoga";
+import { resolvers, fragmentReplacements } from "./resolvers";
 
-import Post from "./resolvers/post";
-import Comment from "./resolvers/comment";
-import User from "./resolvers/user";
-import Mutation from "./resolvers/mutation";
-import Query from "./resolvers/query";
 import prisma from "./prisma";
 
 const server = new GraphQLServer({
   typeDefs: "./src/schema.graphql",
-  resolvers: {
-    Post,
-    Comment,
-    User,
-    Mutation,
-    Query
-  },
+  resolvers,
   context(req) {
     return {
       prisma,
       req
     };
-  }
+  },
+  fragmentReplacements
 });
 server.start(() => console.log("Server is running on localhost:4000"));
