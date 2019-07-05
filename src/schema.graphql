@@ -1,5 +1,5 @@
 type Query {
-  users(query: String): [User!]!
+  users(query: String, first: Int, skip: Int, after: Int): [User!]!
   me: User!
   posts(query: String): [Post!]!
   post: Post!
@@ -28,6 +28,7 @@ input CreateUserInput {
 input UpdateUserInput {
   username: String
   email: String
+  password: String
 }
 
 type AuthPayload {
@@ -42,6 +43,8 @@ type User {
   email: String
   posts: [Post!]!
   comments: [Comment!]!
+  updatedAt: String!
+  createdAt: String! 
 }
 
 type Post {

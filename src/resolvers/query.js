@@ -1,6 +1,10 @@
 const Query = {
   users(parent, args, { db, prisma }, info) {
-    const opArgs = {};
+    const opArgs = {
+      first: args.first,
+      skip: args.skip,
+      after: args.after
+    };
 
     if (args.query) {
       opArgs.where = {
